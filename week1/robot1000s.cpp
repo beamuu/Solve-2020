@@ -60,6 +60,5 @@ int main(void) {
 
     cout << 2*dist << '\n';
     return 0;
-
     
 }
