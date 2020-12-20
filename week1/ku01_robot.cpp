@@ -2,112 +2,123 @@
 #include <algorithm>
 using namespace std;
 
+int Same(int h1 , int h2 , int b1 , int b2) {
+
+    int white = min(h1,b1);
+    int black = min(h2,b2);
+    return white+black;
+}
+
+int Bicolor(int h1 , int h2 , int b1, int b2) {
+
+    int white_head = min(h1,b2);
+    int black_head = min(h2,b1);
+    return white_head + black_head;
+}
+
+int GameOver(int h1 , int h2 , int b1, int b2) {
+    
+    int white = min(h1,b1);
+    int black = min(h2,b2);
+    if (!white && !black) {
+        return 1;
+    }
+    return 0;
+}
+
+int GameOver2(int h1 , int h2 , int b1, int b2) {
+    
+    int white = min(h1,b2);
+    int black = min(h2,b1);
+    if (!white && !black) {
+        return 1;
+    }
+    return 0;
+}
+
+int CanDo(int x , int y) {
+    if (x == 0 || y == 0) return 0;
+    return 1;
+}
+
+
 int main(void) {
-    //1 == white 2 == black;
-    int h1,h2,b1,b2,x,y;
+
+    int H1,H2,B1,B2,X,Y;
+    int h1,h2,b1,b2,x,y,res=0,count=0,bicolor;
+    int same;
+    cin >> H1 >> H2 >> B1 >> B2;
+    cin >> X >> Y;
+
+    x = X;
+    y = Y;
     
-    cin >> h1 >> h2 >> b1 >> b2;
-    cin >> x >> y;
-
-    int count = 0;
-
-    //unicolor == x
-    //bicolor == y
-    int max_white = min(h1,b2);
-    int max_black = min(h2,b2);
-
-    int bicolor_white_head;
-    int bicolor_black_head;
-    
-    if (max_white > max_black) {
-        // choose white first.
-        if (max_white > x) {
-            h1 -= x;
-            b1 -= x;
-            count += x;
+    int white=1;
+    h1 = H1;
+    h2 = H2;
+    b1 = B1;
+    b2 = B2;
+    while (1) {
+        if (count == x || GameOver(h1,h2,b1,b2)) {
+            break;
+        }
+        if (white && CanDo(h1,b1)) {
+            h1 -= 1;
+            b1 -= 1;
+        }
+        else if (!white && CanDo(h2,b2)) {
+            h2 -= 1;
+            b2 -= 1;
         }
         else {
-            h1 -= max_white;
-            b1 -= max_white;
-            x -= max_white;
-            count += max_white;
-
-            if (max_black > x) {
-                h2 -= x;
-                b2 -= x;
-                count += x;
-            }
-            else {
-                h2 -= max_black;
-                b2 -= max_black;
-                count += max_black;
-            }
-
+            white = !white;
+            continue;
+        }
+        white = !white;
+        count++;
+        bicolor = Bicolor(h1,h2,b1,b2);
+        if (bicolor > y) {
+            bicolor = y;
+        }
+        //cout << "SAME: " <<count << "+" << bicolor << "\n";
+        if (count+bicolor > res) {
+            res = count + bicolor;
         }
     }
-    else {
-        // choose black first.
-        if (max_black > x) {
-            h2 -= x;
-            b2 -= x;
-            count += x;
+    count = 0;
+    white = 1;
+    h1 = H1;
+    h2 = H2;
+    b1 = B1;
+    b2 = B2;
+    while (1) {
+        if (count == y || GameOver2(h1,h2,b1,b2)) {
+            break;
+        }
+        if (white && CanDo(h1,b2)) {
+            h1 -= 1;
+            b2 -= 1;
+        }
+        else if (!white && CanDo(h2,b1)) {
+            h2 -= 1;
+            b1 -= 1;
         }
         else {
-            h2-= max_black;
-            b2 -= max_black;
-            x -= max_black;
-            count += max_black;
-
-            if (max_white > x) {
-                h1 -= x;
-                b1 -= x;
-                count += x;
-            }
-            else {
-                h1 -= max_white;
-                b1 -= max_white;
-                count += max_white;
-            }
+            white = !white;
+            continue;
         }
+        white = !white;
+        count++;
+        same = Same(h1,h2,b1,b2);
+        if (same > x) {
+            same = x;
+        }
+        //cout << "BI: " << count << "+" << bicolor << "\n";
+        if (count+same > res) {
+            res = count+same;
+        }
+
     }
-
-    bicolor_white_head  = min(h1,b2);
-    bicolor_black_head = min(h2,b1);
-    
-    if (bicolor_white_head > bicolor_black_head) {
-        // choose white first.
-        if (bicolor_white_head > y) {
-            count += y;
-        }
-        else {
-            count += bicolor_white_head;
-            y -= bicolor_white_head;
-
-            if (bicolor_black_head > y) {
-                count += y;
-            }
-            else {
-                count += bicolor_black_head;
-            }
-        }
-    }
-    else {
-        // choose black first.
-        if (bicolor_black_head > y) {
-            count += y;
-        }
-        else {
-            count += bicolor_black_head;
-            y -= bicolor_black_head;
-
-            if (bicolor_white_head > y) {
-                count += y;
-            }
-            else {
-                count += bicolor_white_head;
-            }
-        }
-    }
-    cout << count << "\n";
+    std::cout << res << "\n";
     return 0;
 }
