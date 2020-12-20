@@ -1,3 +1,4 @@
 # Nutchanon's Code #
-- Educational purpose only!
+- These files is a part of Problem Solving Lab.
+- Educational purpose only.
 - Copyright.
