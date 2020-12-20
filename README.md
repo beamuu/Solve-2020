@@ -1,3 +1,3 @@
-**Nutchanon's Problem Solving Archives**
+# Nutchanon's Code#
 - Educational purpose only!
 - Copyright.
