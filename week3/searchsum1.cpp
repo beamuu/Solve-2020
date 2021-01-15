@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+<<<<<<< HEAD
 int cummulativePrice[100000];
 
 
@@ -29,4 +30,35 @@ int main() {
         cout << solve(money , n) << endl;
     }
     return 0;
+=======
+int main() {
+    
+    int n,k;
+    cin >> n >> k;
+    
+    int lib[n];
+    int count=0;
+    int input;
+    for (int i=0 ; i<n ; i++) {
+        cin >> lib[i];
+    }
+
+    while (k--) {
+        cin >> input;
+        for (int i=0 ; i<n ; i++) {
+            if (input-lib[i] < 0) {
+                cout << count << endl;
+                break;
+            }
+            else {
+                input -= lib[i];
+                count++;
+            }
+        }
+        count = 0;
+    }
+    return 0;
+
+
+>>>>>>> 5988f672c240eab9de70352d75e1ff730165330f
 }
