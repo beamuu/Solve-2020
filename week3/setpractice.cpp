@@ -2,44 +2,36 @@
 #include <set>
 using namespace std;
 
-int main() 
-{
-    
-    set<int> myset;
-    set<int>::iterator it;
-    int n,m,x;
-    int left,right;
-    cin >> n >> m;
-    
+set <int> s; 
+set <int>::iterator it;
 
+int main() {
+    
+    int n , m , number , pre , post;
+    cin >> n >> m;
     while (n--) {
-        cin >> x;
-        myset.insert(x);
+        cin >> number;
+        s.insert(number);
     }
     while (m--) {
-        cin >> x;
-        if (*(--myset.end()) <= x) {
-            cout << *(--myset.end()) << endl;
+        cin >> number;
+        it = s.lower_bound(number);
+        if (it == s.end()) {
+            cout << *(--it) << endl;
+        }
+        else if (*it == number) {
+            cout << number << endl;
         }
         else {
-            it = myset.lower_bound(x);
-            if (x == *(it)) {
-                cout << x << endl;
-                continue;
+            pre = *(--it); it++;
+            post = *(it);
+            if (number-pre <= post-number) {
+                cout << pre << endl;
             }
-            left = *(--it);
-            it++;
-            right = *it;
-            if (x-left < right-x) {
-                cout << left << endl;
-            } else {
-                cout << right << endl;
+            else {
+                cout << post << endl;
             }
-            
         }
     }
-
     return 0;
 }
-
-

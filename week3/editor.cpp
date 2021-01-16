@@ -6,8 +6,9 @@ int main() {
 
     list<string> editor;
     list<string>::iterator cursor;
-    list<string>::iterator fake;
-    cursor = editor.begin();
+    list<string>::iterator decoy;
+
+    cursor = editor.end();
 
     char command;
     string text;
@@ -34,8 +35,8 @@ int main() {
                 break;
             case 'b':
                 if (cursor != editor.begin()) {
-                    fake = --cursor;
-                    editor.erase(fake);
+                    decoy = --cursor; cursor++;
+                    editor.erase(decoy);
                 }
                 break;
             case 'd':
@@ -43,18 +44,17 @@ int main() {
                     break;
                 }
                 else {
-                    fake = cursor;
+                    decoy = cursor;
                     cursor++;
-                    editor.erase(fake);
+                    editor.erase(decoy);
                     break;
                 }
         }
-        /*
-        for (auto i=editor.begin() ; i!=editor.end(); i++) {   
-            cout << *i << ' ';
-        }
-        */
     }
+    for (auto i=editor.begin() ; i!=editor.end() ; i++) {
+        cout << *i << ' ';
+    }
+    cout << '\n';
     return 0;
 
 }

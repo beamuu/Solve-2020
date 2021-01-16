@@ -1,50 +1,50 @@
 #include <iostream>
+#include <set>
+#include <list>
 using namespace std;
 
-int count(int arr[]) {
-    int count=0;
-    for (int i=0 ; i<arr.length() ; i++) {
-        if (arr[i]) count++;
+list <int> path[100001];
+list <int>::iterator it;
+set <int> s;
+int graph=0;
+int *mark = (int *)malloc(sizeof(int)*100001);
+
+
+void solve(int current) {
+    
+    // cout << "loop in to: " << current << endl;
+    s.erase(current);
+    mark[current] = 1;
+    if (path[current].size() == 0) return;
+    for (auto i=path[current].begin() ; i!=path[current].end() ; i++) {
+        // cout << *it << endl;
+        if (!mark[*i]) solve(*i);
     }
-    return count;
+    return;
 }
 
 int main() {
-
-    int n , m;
-    int a , b;
-    int start,pos,destination;
+    
+    int n,m;
+    int node1,node2;
+    int current=1;
     cin >> n >> m;
-    int array[n+1][n+1];
-    int *mark = (int *)malloc(sizeof(int)*(n+1));
-    // reset to 0
-    for (int i=0 ; i<n ; i++) { 
-        for (int j=0 ; j<n ; j++) {
-            array[i][j] = 0;
-        }
+    for (int i=1 ; i<=n ; i++) {
+        s.insert(i);
+    }
+    while (m--) {   
+        cin >> node1 >> node2;
+        path[node1].push_back(node2);
+        path[node2].push_back(node1);
     }
 
-    while (m--) {
-        cin >> a >> b;
-        array[a][b] = 1;    array[b][a] = 1;
+    while (s.size() != 0) {
+        solve(current);
+        graph++;
+        current = *(s.begin());
     }
-
-    for (int i=0 ; i<n+1 ; i++) {
-        if (count(array[i]) == 1) {
-            start = i;
-            break;
-        }
-    }
-    pos = start;
-    mark[start] = 1;
-    while (1) {
-        for (i=0 ; i<n+1 ; i++) {
-            if (array[pos][i] == 1) {
-                pos = i;
-            }
-        } 
-    }
-
+    cout << graph << endl;
     return 0;
+
 
 }

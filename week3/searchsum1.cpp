@@ -1,64 +1,43 @@
 #include <iostream>
+#include <set>
+#include <map>
 using namespace std;
-
-<<<<<<< HEAD
-int cummulativePrice[100000];
-
-
-int solve (int money , int n) {
-    for (int i=0 ; i<n ; i++) {
-        if ( money < cummulativePrice[i] ) {
-            return i;
-        }
-    }
-    return n;
-}
-
+set <int> cummulativePrice;
+set <int>::iterator it;
+map <int,int> priceHash;
 
 int main() {
-    
-    int n , k , bookPrice , sum=0, money;
-    cin >> n >> k;
 
-    for (int i=0 ; i<n ; i++) {
-        cin >> bookPrice;
-        sum += bookPrice;
-        cummulativePrice[i] = sum;
-    }    
-    while (k--) {
-        cin >> money;
-        cout << solve(money , n) << endl;
-    }
-    return 0;
-=======
-int main() {
-    
     int n,k;
     cin >> n >> k;
-    
-    int lib[n];
-    int count=0;
-    int input;
-    for (int i=0 ; i<n ; i++) {
-        cin >> lib[i];
+
+    int bookPrice , sum=0 , bookNumber=1 , money , totalPrice;
+
+    while (n--) {
+        cin >> bookPrice;
+        sum += bookPrice;
+        cummulativePrice.insert(sum);
+        priceHash[sum] = bookNumber;
+
+        bookNumber++;
+
     }
 
     while (k--) {
-        cin >> input;
-        for (int i=0 ; i<n ; i++) {
-            if (input-lib[i] < 0) {
-                cout << count << endl;
-                break;
-            }
-            else {
-                input -= lib[i];
-                count++;
-            }
+        cin >>  money;
+        it = cummulativePrice.lower_bound(money);
+        if (it == cummulativePrice.begin() && money < *it) {
+            cout << 0 << endl;
+            continue;
         }
-        count = 0;
+        if (*it == money) {
+            totalPrice = money;
+        }
+        else {
+            it--;
+            totalPrice = *it;
+        }
+        cout << priceHash[totalPrice] << endl;
     }
     return 0;
-
-
->>>>>>> 5988f672c240eab9de70352d75e1ff730165330f
 }

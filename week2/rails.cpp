@@ -1,57 +1,81 @@
 #include <iostream>
-#include <stack>
-#include <vector>
-#include <algorithm>
+#include <list>
 using namespace std;
 
-int main() {
+list <int> stack;
+list <int> a;
+list <int> objective;
+list <int>::iterator pt;
+void solve(int n) {
+    
+    for (int i=1 ; i<=n ; i++) a.push_back(i);
 
-    int n,train;
-    vector<int> Stack;
-    vector<int> sequence;
-    vector<int> lib;
-    vector<int>::iterator res_pt;
-    vector<int>::iterator main_pt;
+    int train,exit=0,result;
+    int arriveTrain;
+    while (true) {
 
-    while (1) {
-
-        cin >> n;
-        if (!n) {
-            break;
-        }
-
+        result = 0;
         for (int i=0 ; i<n ; i++) {
             cin >> train;
-            if (!train) {
+            if (train == 0) {
+                exit = 1;
                 break;
             }
-            sequence.push_back(train);
-            lib.push_back(i+1);
+            objective.push_back(train);
         }
-        res_pt = sequence.begin();
-        main_pt = lib.begin();
-        while (1) {
+        if (exit) break;
 
-            if (Stack.size() > 0 && *(--Stack.end()) == *res_pt) {
-
-                res_pt++;
-                Stack.pop_back();
+        pt = objective.begin();
+        while (true) {
+            
+            if (pt == objective.end()) {
+                result = 1;
+                break;
             }
-            else if (find(Stack.begin(),Stack.end(),*res_pt) == Stack.end()) {
-
-                Stack.push_back(
-                    *(lib.begin())
-                );
-                main_pt++;
-
+            if (a.size() == 0 && pt != objective.end()) {
                 
-
+                if (*(stack.begin()) == *pt) {
+                    pt++;
+                    stack.pop_front();
+                    continue;
+                }
+                else {
+                    break;
+                }
             }
+
+            arriveTrain = *(a.begin());
+            stack.push_front(arriveTrain);
+            a.pop_front();
+
+            if (*(stack.begin()) == *pt) {
+                pt++;
+                stack.pop_front();
+            }
+            
         }
-
+        if (result) cout << "yes" << endl;
+        else cout << "no" << endl;
+        objective.clear();
+        stack.clear();
+        
     }
+    return;
+}
 
 
-
-    return 0;
+int main() {
+    
+    int n;
+    while (true) {
+        cin >> n;
+        if (n == 0) {
+            break;
+        }
+        else {
+            solve(n);
+            a.clear();
+        }
+        cout << endl;
+    }
 }
