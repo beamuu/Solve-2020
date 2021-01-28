@@ -1,45 +1,64 @@
 #include <iostream>
-#include <list>
+#include <queue>
 using namespace std;
 
-int brokenBottle=0;
-list <int> mark;
-void destroy(int *array , int n , int height) {
-    for (int i=0 ; i<n ; i++) {
-        if (array[i] > height) {
-            if (array[i] != 0) {
-                array[i] = 0;
-                brokenBottle++;
-            }
-            if (array[i-1] != 0 && i > 0) {
-                array[i-1] = 0;
-                brokenBottle++;
-            }
-            if (array[i+1] != 0 && i < n-1 && n != 1) {
-                array[i+1] = 0;
-                brokenBottle++;
-            }
+typedef struct bottle { 
+    int name, height; 
+    bool operator<(const bottle & o) const {
+        return height<o.height;
+    }
+} node;
+
+int bottleBroke=0;
+priority_queue <node> heap;
+
+void destroy(int height , int *broke , int n , int time , int *timestamp) {
+    while (!heap.empty() && heap.top().height > height) {
+        if (broke[heap.top().name] && timestamp[heap.top().name] != time) { heap.pop() ; continue; }
+        if (!broke[heap.top().name]) {
+            //printf("%d breaks.\n" , heap.top().name);
+            broke[heap.top().name]= 1;
+            timestamp[heap.top().name] = time;
+            bottleBroke++;
         }
+        if (heap.top().name != n && !broke[heap.top().name+1]) {
+            //printf("%d breaks.\n" , heap.top().name+1);
+            bottleBroke++;
+            broke[heap.top().name+1] = 1;
+            timestamp[heap.top().name+1] = time;
+        }
+        if (heap.top().name != 1 && !broke[heap.top().name-1]) {
+            //printf("%d breaks.\n" , heap.top().name-1);
+            bottleBroke++;
+            broke[heap.top().name-1] = 1;
+            timestamp[heap.top().name-1] = time;
+        }
+        heap.pop();
     }
 }
 
 int main() {
-    
-    int n,m,height;
-    cin >> n >> m;
-    
-    int *array = (int *)malloc(sizeof(int)*n);
-    
-    for (int i=0 ; i<n ; i++) {
-        cin >> height;
-        array[i] = height;
-    }
 
+    int n,m,nloop;
+    int height , name=1 , time=1;
+    cin >> n >> m;
+    nloop = n;
+    int *timestamp = (int *)malloc(sizeof(int)*(n+1));
+    int *broke = (int *)malloc(sizeof(int)*(n+1));
+    while (nloop--) {
+        cin >> height;
+        node newnode;
+        newnode.name = name;
+        newnode.height = height;
+        heap.push(newnode);
+        name++;
+    }
     while (m--) {
         cin >> height;
-        destroy(array , n , height);
-        cout << brokenBottle << endl;
-        brokenBottle=0;
+        destroy(height,broke,n,time,timestamp);
+        cout << bottleBroke << endl;
+        bottleBroke=0;
+        time++;
     }
     return 0;
 }
