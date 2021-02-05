@@ -92,6 +92,12 @@ int main () {
     if (!dist[n+1]) {
       printf(-1);
     } else printf("%d\n",dist[n+1]);
+<<<<<<< HEAD
 
     return 0;
 }
+=======
+    // return
+    return 0;
+}
+>>>>>>> a2ef0e9f8ce77fe0cd78aec150431020197236fb
