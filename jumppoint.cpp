@@ -92,6 +92,6 @@ int main () {
     if (!dist[n+1]) {
       printf(-1);
     } else printf("%d\n",dist[n+1]);
-
+    // return
     return 0;
 }
