@@ -7,7 +7,7 @@ typedef struct NODE {int x,y,condition,token,count;} node;
 list <node> queue;
 int xlimit,ylimit;
 int res=10000000;
-void BFS(string *map , int xstart , int ystart , int xend , int yend , int **visited) {
+void BFS(char **map , int xstart , int ystart , int xend , int yend , int **visited) {
 
     char wall_stone = '#';
     char wall_dirt  = '*';
@@ -129,15 +129,20 @@ int main () {
     xlimit = n;
     ylimit = m;
 
-    string *map   = (string *)malloc(n * sizeof(string));
+    //string *map   = (string *)malloc(n * sizeof(string));
+
+    char **map = (char **)malloc(n * sizeof(char *));
     int **visited = (int **)malloc(n * sizeof(int *));
 
     for (int i=0 ; i<n ; i++) {
         visited[i] = (int *)malloc(m * sizeof(int));
+        map[i]     = (char *)malloc(m * sizeof(char));
     }
 
     for (int i=0 ; i<n ; i++) {
-        cin >> map[i];
+        for (int j=0 ; j<m ; j++) {
+            scanf("%c",&map[i][j]);
+        }
     }
 
     
