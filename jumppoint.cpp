@@ -8,11 +8,11 @@ using namespace std;
 struct node {int name,x,y;};
 
 list <int> queue;
-vector <int> graph[1001];
-node nds[1001];
-int deg[1001];
-int dist[1001];
-int visited[1001];
+vector <int> graph[1002];
+node nds[1002];
+int deg[1002];
+int dist[1002];
+int visited[1002];
 
 node createNode(int name , int x , int y) {
     node newnode; newnode.name = name; newnode.x = x; newnode.y = y;
@@ -89,7 +89,15 @@ int main () {
     cin >> n >> r;
     init(n,r);
     BFS();
-    printf("%d\n",dist[n+1]);
+    if (!dist[n+1]) {
+      printf(-1);
+    } else printf("%d\n",dist[n+1]);
+<<<<<<< HEAD
 
     return 0;
 }
+=======
+    // return
+    return 0;
+}
+>>>>>>> a2ef0e9f8ce77fe0cd78aec150431020197236fb
